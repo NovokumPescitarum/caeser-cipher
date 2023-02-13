@@ -1,8 +1,8 @@
 modulus = 26 #Since alphabet is twenty-six letters, this means 0 - 25
 
 alphabetList = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+numberList = [0,1,2,3,4,5,6,7,8,9]
 
-#inputString = input("Enter the message you wish to encrypt: ")
 
 def listToString(string):
     # initialization of string to ""
@@ -13,17 +13,34 @@ def listToString(string):
     # return string
     return new
 
+def represents_int(s):
+    try: 
+        int(s)
+    except ValueError:
+        return False
+    else:
+        return True
+
 encryptedLetters = []
 def encrypt(winput,key):
     for letter in winput.upper():
         if letter == " ":
             encryptedLetters.append(letter)
-        else:
+        
+        elif letter.isalpha(): 
             letterLocation = alphabetList.index(letter)
                 
             substitutedEncryptedLetter = alphabetList[(letterLocation + int(key)) % modulus]
 
             encryptedLetters.append(substitutedEncryptedLetter)
+        
+        elif letter.isdigit():
+            numberLocation = numberList.index(int(letter))
+                
+            substitutedEncryptedNumber = numberList[(numberLocation + int(key)) % modulus]
+
+            encryptedLetters.append(str(substitutedEncryptedNumber))
+
 
     return listToString(encryptedLetters)
 
@@ -32,13 +49,22 @@ decryptedLetters = []
 def decrypt(winput,key):
     for letter in winput.upper():
         if letter == " ":
-                decryptedLetters.append(letter)
-        else:
+            decryptedLetters.append(letter)
+        
+        elif letter.isalpha():
                 letterLocation = alphabetList.index(letter)
                     
                 substitutedDecryptedLetter = alphabetList[(letterLocation - int(key)) % modulus]
-
+                
                 decryptedLetters.append(substitutedDecryptedLetter)
+        
+        elif letter.isdigit():
+            
+            numberLocation = numberList.index(int(letter))
+                
+            substitutedEncryptedNumber = numberList[(numberLocation - int(key)) % modulus]
+
+            decryptedLetters.append(str(substitutedEncryptedNumber))
 
     return listToString(decryptedLetters)
 
